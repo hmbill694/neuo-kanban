@@ -4,6 +4,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import { curry } from './utils/fp'
 
 function App() {
   return (
