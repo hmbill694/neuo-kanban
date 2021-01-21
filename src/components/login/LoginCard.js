@@ -3,6 +3,7 @@ import Card from '../general/Card'
 import TextBox from '../general/TextBox'
 import InsetOnHoverButton from '../general/InsetOnHoverButton'
 import { map } from '../../utils/fp';
+import { useHistory } from 'react-router-dom';
 
 const styles = {
   label: 'nm-convex-white-sm mx-2 p-3 rounded-lg w-32',
@@ -16,13 +17,17 @@ const createTextBox = x => (
 )
 const textBoxInfo = [{ label: 'Username: ', styles }, { label: 'Password', styles }]
 
-const children = (
+const makeChildren = (clickFn) =>  (
   <div className="flex flex-col w-full justify-center items-center">
     {map(createTextBox, textBoxInfo)}
-    <InsetOnHoverButton />
+    <InsetOnHoverButton clickFunction={clickFn}/>
   </div>
 )
 
-const LoginCard = () => <Card children={children} />
+const LoginCard = () => {
+    const history = useHistory()
+
+    return (<Card children={makeChildren(() => history.push('/home'))} />)
+}
 
 export default LoginCard
