@@ -104,6 +104,16 @@ const reduce = curry((fn, acc, data) =>
   Array.prototype.reduce.call(data, fn, acc)
 );
 
+const remove = curry((elementsToRemove, data) => {
+  const typeOfData = typeof data
+
+  if(typeOfData !== 'string' || (typeOfData === 'object' && !(Array.isArray(data)))) return undefined
+
+  const removeSet = new Set(elementsToRemove)
+  const filteredData = filter(ele => !(removeSet.has(ele)), data)
+  
+  return typeOfData === 'string' ? filteredData.join('') : filteredData
+})
 const filter = curry((fn, data) => Array.prototype.filter.call(data, fn));
 
 const length = curry((data) => (exists(data.length) ? data.length : undefined));
@@ -116,4 +126,4 @@ const prop = curry((key, object) =>
 
 const propEquals = ((key, value, object) => pipe(prop(key), isEqual(value))(object))
 
-export { curry, pipe, compose, id, constant, thrush, apply, and, or, ifElse, cond, isEqual, map, filter, reduce, length, propExists, prop, propEquals };
+export { curry, pipe, compose, id, constant, thrush, apply, and, or, ifElse, cond, isEqual, map, filter, reduce, remove, length, propExists, prop, propEquals };

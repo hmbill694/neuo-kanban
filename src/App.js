@@ -4,7 +4,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { curry } from './utils/fp'
+import Login from './pages/Login'
 
 function App() {
   return (
@@ -12,11 +12,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="">
-           <div className="bg-gray-600 min-h-screen">
-             <div className="">
-               Hi
-             </div>
-           </div>
+            <Login />
           </Route>
           <Route path="/home"></Route>
         </Switch>
