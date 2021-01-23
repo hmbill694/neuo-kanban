@@ -3,6 +3,12 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      height: {
+        '11/12': '91.66667%'
+      },
+      gridTemplateColumns: {
+        'home-layout-horizontal': 'max-content minmax(0, 6fr)'
+      },
       animation: {
         'to-white-inset': 'to-white-inset 1s ease-in forwards',
        },

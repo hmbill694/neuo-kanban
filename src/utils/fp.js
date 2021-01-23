@@ -19,6 +19,8 @@ const apply = curry((fn, data) => fn(data));
 const thrush = curry((data, fn) => fn(data));
 
 // logic
+const not = x => !x
+const complement = curry((pred, data) => !pred(data))
 const cond = curry((functionPairs, data) => {
   for (const [pred, trans] of functionPairs) {
     if (pred(data)) return trans(data);
@@ -104,6 +106,19 @@ const reduce = curry((fn, acc, data) =>
   Array.prototype.reduce.call(data, fn, acc)
 );
 
+const reduceUntil = curry((pred, reduceFn, initalAccumulator, data) => {
+  let acc = initalAccumulator
+  let currentIndex = 0
+  const dataLength = data.length
+
+  while(not(pred(acc, currentIndex)) && not(currentIndex >= data.length)) {
+    acc = reduceFn(acc, data[currentIndex], currentIndex, data)
+    currentIndex++
+  }
+
+  return acc
+})
+
 const remove = curry((elementsToRemove, data) => {
   const typeOfData = typeof data
 
@@ -111,7 +126,7 @@ const remove = curry((elementsToRemove, data) => {
 
   const removeSet = new Set(elementsToRemove)
   const filteredData = filter(ele => !(removeSet.has(ele)), data)
-  
+
   return typeOfData === 'string' ? filteredData.join('') : filteredData
 })
 const filter = curry((fn, data) => Array.prototype.filter.call(data, fn));
@@ -124,6 +139,21 @@ const prop = curry((key, object) =>
   propExists(key, object) ? object[key] : undefined
 );
 
-const propEquals = ((key, value, object) => pipe(prop(key), isEqual(value))(object))
+const propEquals = curry((key, value, object) => pipe(prop(key), isEqual(value))(object))
 
-export { curry, pipe, compose, id, constant, thrush, apply, and, or, ifElse, cond, isEqual, map, filter, reduce, remove, length, propExists, prop, propEquals };
+const objectFactory = (keyValuePairs) => reduce((acc, [key, value]) => { acc[key] = value; return acc; }, {}, keyValuePairs)
+const zip = curry((arr1, arr2) => {
+  const isNotArray = complement(Array.isArray)
+  if (isNotArray(arr1) || isNotArray(arr2)) return null
+  
+  const shorterArray = arr1.length >= arr2.length ? arr2 : arr1
+
+  const zipArrayLengthOfShortest = (_, currentIndex) => currentIndex > shorterArray.length - 1
+  const joinArrayAtIndex = (acc, curr, index) => {
+    acc.push([curr, arr2[index]])
+    return acc
+  }
+  return reduceUntil(zipArrayLengthOfShortest, joinArrayAtIndex, [], arr1)
+})
+
+export { curry, pipe, compose, id, constant, thrush, apply, and, or, ifElse, cond, isEqual, map, filter, reduce, remove, length, propExists, prop, propEquals, objectFactory, zip };
