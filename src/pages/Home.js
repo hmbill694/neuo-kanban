@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Column from "../components/general/Column";
 import HamburgerIcon from '../components/nav/HamburgerIcon'
+import NavList from '../components/nav/NavList'
 import { map } from "../utils/fp";
 
 const Home = () => {
@@ -11,7 +12,7 @@ const Home = () => {
     setShowCols(!showCols)
   }
 
-  const wrapperClasses = ` ${showCols ? 'nm-convex-white-lg' : ' opacity-0' } 
+  const wrapperClasses = ` ${showCols ? 'nm-convex-white-lg' : ' shadow-none opacity-0' } 
                         transition-all ease-in-out duration-1000 rounded flex flex-col m-4`;
   const columnData = [
     { title: "To-Do", classes: { wrapperClasses } },
@@ -26,9 +27,11 @@ const Home = () => {
     <div className="h-screen flex flex-auto items-center justify-center relative ">
       <div
         className={`transition-all ease-in-out duration-500 flex justify-center items-center h-full ${
-          showSideBar ? "w-96" : "w-0"
+          showSideBar ? "w-96" : "w-0 opacity-0"
         }`}
-      ></div>
+      >
+        <NavList />
+      </div>
       <div className="w-full p-4 h-11/12 grid grid-cols-3">{columns}</div>
       <HamburgerIcon  {...hamburgericonProps}/>
     </div>

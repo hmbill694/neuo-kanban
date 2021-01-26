@@ -2,7 +2,7 @@ import React from 'react'
 import HamburgerIcon from './HamburgerIcon'
 const Nav = () => {
     return (
-        <nav>
+        <nav className="h-screen z-10 absolute ">
             
         </nav>
     )
