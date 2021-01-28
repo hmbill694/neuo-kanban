@@ -10,7 +10,7 @@ const HamburgerIcon = ({ isOpen, displayFunction }) => {
   const rotateBar = (isOpen, activeClasses, inactiveClasses) =>
     `${isOpen ? activeClasses : inactiveClasses}`;
   return (
-    <button className="absolute top-2 left-2 h-fit w-fit flex flex-col focus:outline-none" onClick={() => displayFunction()}>
+    <button className="absolute z-30 top-2 left-2 h-fit w-fit flex flex-col focus:outline-none" onClick={() => displayFunction()}>
       <div
         className={rotateBar(isOpen, topBarRotatedClasses, baseRotateClasses)}
       >

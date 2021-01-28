@@ -1,8 +1,6 @@
 import { useState } from "react";
-import Column from "../components/general/Column";
-import HamburgerIcon from '../components/nav/HamburgerIcon'
-import NavList from '../components/nav/NavList'
-import { map } from "../utils/fp";
+import Nav from '../components/nav/Nav'
+import CardArea from '../components/cardArea/CardArea'
 
 const Home = () => {
   const [showCols, setShowCols] = useState(true)
@@ -12,28 +10,13 @@ const Home = () => {
     setShowCols(!showCols)
   }
 
-  const wrapperClasses = ` ${showCols ? 'nm-convex-white-lg' : ' shadow-none opacity-0' } 
-                        transition-all ease-in-out duration-1000 rounded flex flex-col m-4`;
-  const columnData = [
-    { title: "To-Do", classes: { wrapperClasses } },
-    { title: "In Progress", classes: { wrapperClasses } },
-    { title: "Done", classes: { wrapperClasses } },
-  ];
 
-  const columns = map((x, index) => Column({ ...x, key: index }), columnData);
-
-  const hamburgericonProps = {isOpen: showSideBar, displayFunction: displayNav}
+  const navProps = {isOpen: showSideBar, displayFunction: displayNav}
+  const cardAreaProps = { showCols: !showSideBar }
   return (
-    <div className="h-screen flex flex-auto items-center justify-center relative ">
-      <div
-        className={`transition-all ease-in-out duration-500 flex justify-center items-center h-full ${
-          showSideBar ? "w-96" : "w-0 opacity-0"
-        }`}
-      >
-        <NavList />
-      </div>
-      <div className="w-full p-4 h-11/12 grid grid-cols-3">{columns}</div>
-      <HamburgerIcon  {...hamburgericonProps}/>
+    <div className="h-screen grid" style={{gridTemplateColumns: 'minmax(3.5rem, max-content) 4fr'}}>
+      <Nav {...navProps} />
+      <CardArea {...cardAreaProps}/>
     </div>
   );
 };

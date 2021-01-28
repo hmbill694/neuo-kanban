@@ -5,7 +5,7 @@ import NavItem from './NavItem'
 const NavList = ({ navItems = [{}, {}, {}] }) => {
     return (
         <ul className="w-full h-full nm-inset-white-lg p-8">
-            { map(NavItem, navItems) }
+            { map((x, index) => <NavItem {...{index, ...x}}/>, navItems) }
         </ul>
     )
 }
